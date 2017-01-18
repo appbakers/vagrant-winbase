@@ -5,7 +5,8 @@ reg add HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\Sy
 
 ###==> set First Network NIC as Private Connection(When first booted, usually the connection type was Public.)
 ###==> to negate security rule (Usually, Private Connection is trusted, Public Connection is not trusted)
-Get-NetConnectionProfile | findstr InterfaceIndex | Select-Object -first 1 | %{$_.Split(":") } | Select-Object -first 2 | Select-Object -last 1  -outvariable netidx Set-NetConnectionProfile -InterfaceIndex $netidx -NetworkCategory Private
+Get-NetConnectionProfile |findstr InterfaceIndex |Select-Object -first 1 |%{$_.Split(":") } |Select-Object -first 2 |Select-Object -last 1 -outvariable netidx
+Set-NetConnectionProfile -InterfaceIndex $netidx -NetworkCategory Private
 
 ###==> open 5985 port for WinRM service
 netsh advfirewall firewall set rule group="remote administration" new enable=yes
