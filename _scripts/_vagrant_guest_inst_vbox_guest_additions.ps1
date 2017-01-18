@@ -2,6 +2,9 @@ param (
 		[string]$version = 5.1.12
       )
 
+$process = Start-Process "choco" -ArgumentList "install -y 7zip" -Wait -WindowStyle Hidden -PassThru
+try { if (!($process.HasExited)) { Wait-Process $process } } catch { }
+
 $packageName = 'VBoxGuestAdditions.install'
 $url = 'http://download.virtualbox.org/virtualbox/$version/VBoxGuestAdditions_$version.iso'
 
