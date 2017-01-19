@@ -13,6 +13,9 @@ echo "scrdir:: $scrdir"
 tstamp() {
 	echo $(date +%Y%m%d.%H%M%S)
 }
+parent_dir() {
+	echo $(dirname "$1")
+}
 
 cur_tstamp=$(tstamp)
 box_zero_image_path=~/.vagrant.d/boxes/${box_name}/0/virtualbox
@@ -21,21 +24,22 @@ box_froze_existing_image_path=~/.vagrant.d/boxes/${box_name}/0.was.${cur_tstamp}
 box_versioned_image_path=~/.vagrant.d/boxes/${box_name}/${cur_tstamp}/virtualbox
 freeze_zero() {
 	if [ ! -f $box_frozen_image_path ];then
-		mv $box_zero_image_path $box_frozen_image_path
+		mv $box_zero_image_path $(parent_dir "${box_frozen_image_path}")
 	fi
 	#// manually created image to versioning...
 	#// when user did not used this script but already box_zero was existed case,
 	#// to negate conflict make versioning with 0.was.${cur_tstamp} 
 	if [ -f $box_zero_image_path ];then
 		mkdir -p $box_froze_existing_image_path
-		mv $box_zero_image_path $box_froze_existing_image_path
+		mv $box_zero_image_path $(parent_dir "${box_froze_existing_image_path}")
 	fi
 }
+
 
 versioned_boxadd() {
 	freeze_zero
 	vagrant box add ${box_name} ${box_name}.box &&\
-		(mkdir -p $box_versioned_image_path; mv $box_zero_image_path $box_versioned_image_path)
+		(mkdir -p $box_versioned_image_path; mv $box_zero_image_path "$(parent_dir ${box_versioned_image_path})")
 }
 
 vagrant package --output ${box_name}.box --include $scrdir/_scripts --vagrantfile $scrdir/_vagrant_win_Vagrantfile &&\
