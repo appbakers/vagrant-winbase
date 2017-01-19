@@ -11,12 +11,12 @@ scrdir=$(dirname "$0")
 echo "scrdir:: $scrdir"
 
 tstamp() {
-	echo $(date +%Y%m%dT%H%M%S)
+	echo $(date +%Y%m%d.%H%M%S)
 }
 
 cur_tstamp=$(tstamp)
 box_zero_image_path=~/.vagrant.d/boxes/${box_name}/0/virtualbox
-box_frozen_image_path=~/.vagrant.d/boxes/${box_name}/0/__0__virtualbox
+box_frozen_image_path=~/.vagrant.d/boxes/${box_name}/0/__0__virtualbox__
 box_froze_existing_image_path=~/.vagrant.d/boxes/${box_name}/0.was.${cur_tstamp}/virtualbox
 box_versioned_image_path=~/.vagrant.d/boxes/${box_name}/${cur_tstamp}/virtualbox
 freeze_zero() {
