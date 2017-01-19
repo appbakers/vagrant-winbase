@@ -34,7 +34,7 @@ freeze_zero() {
 versioned_boxadd() {
 	freeze_zero
 	vagrant box add ${box_name} ${box_name}.box &&\
-		mv $box_zero_image_path $cur_tstamp
+		mv $box_zero_image_path $box_versioned_image_path
 }
 
 vagrant package --output ${box_name}.box --include $scrdir/_scripts --vagrantfile $scrdir/_vagrant_win_Vagrantfile &&\
