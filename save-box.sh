@@ -6,6 +6,11 @@ if [ "$1" = "" ];then
 fi
 
 box_name=$1
+reuse=N # when failed to box add stage, then set this option to retry again with the box
+if [ "$2" = "--reuse" ];then
+	echo "--reuse ==> reuse=Y"
+	reuse=Y
+fi
 
 scrdir=$(dirname "$0")
 echo "scrdir:: $scrdir"
@@ -23,13 +28,13 @@ box_frozen_image_path=~/.vagrant.d/boxes/${box_name}/0/__0__virtualbox__
 box_froze_existing_image_path=~/.vagrant.d/boxes/${box_name}/0.was.${cur_tstamp}/virtualbox
 box_versioned_image_path=~/.vagrant.d/boxes/${box_name}/${cur_tstamp}/virtualbox
 freeze_zero() {
-	if [ ! -f $box_frozen_image_path ];then
+	if [ ! -d $box_frozen_image_path ];then
 		mv -v $box_zero_image_path $(parent_dir "${box_frozen_image_path}")
 	fi
 	#// manually created image to versioning...
 	#// when user did not used this script but already box_zero was existed case,
 	#// to negate conflict make versioning with 0.was.${cur_tstamp} 
-	if [ -f $box_zero_image_path ];then
+	if [ -d $box_zero_image_path ];then
 		mkdir -p $box_froze_existing_image_path
 		mv -v $box_zero_image_path $(parent_dir "${box_froze_existing_image_path}")
 	fi
@@ -42,7 +47,10 @@ versioned_boxadd() {
 		(mkdir -p $box_versioned_image_path; mv -v $box_zero_image_path "$(parent_dir ${box_versioned_image_path})")
 }
 
-vagrant package --output ${box_name}.box --include $scrdir/_scripts --vagrantfile $scrdir/_vagrant_win_Vagrantfile &&\
+if [ "$reuse" = "Y" ];then
 	versioned_boxadd
-
+else
+	vagrant package --output ${box_name}.box --include $scrdir/_scripts --vagrantfile $scrdir/_vagrant_win_Vagrantfile &&\
+		versioned_boxadd
+fi
 
