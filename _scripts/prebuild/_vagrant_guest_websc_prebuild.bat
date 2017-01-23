@@ -5,5 +5,5 @@
 @call _vagrant_guest_inst_vbox_guest_additions.ps1
 
 ###==> installing GoogleChrome firefox jdk7 ie11
-start cmd.exe /c choco install -y wget & start cmd.exe /c choco install -y 7zip.commandline &start cmd.exe /c choco install -y GoogleChrome & start cmd.exe /c choco install -y firefox & start cmd.exe /c choco install -y jdk7 & start cmd.exe /c choco install -y ie11 & start cmd.exe /c choco install -y startmenu8 & start cmd.exe /c choco install -y notepadplusplus & start cmd.exe /c choco install -y notepad2-mod
+start cmd.exe /c choco install -y wget & start cmd.exe /c choco install -y openssh & start cmd.exe /c choco install -y 7zip.commandline &start cmd.exe /c choco install -y GoogleChrome & start cmd.exe /c choco install -y firefox & start cmd.exe /c choco install -y jdk7 & start cmd.exe /c choco install -y ie11 & start cmd.exe /c choco install -y startmenu8 & start cmd.exe /c choco install -y notepadplusplus & start cmd.exe /c choco install -y notepad2-mod
 
