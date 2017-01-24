@@ -18,9 +18,9 @@ Vagrant.configure("2") do |config|
   end
 
   puts "if provision, then upload FROM #{File.dirname(__FILE__)}/../_scripts in host TO C:\\_scripts in guest"
-  config.vm.provision "file", name: "upload _scripts dir", source: File.dirname(__FILE__)+"/../_scripts", destination: "C:\\_scripts" 
+  config.vm.provision "file", source: File.dirname(__FILE__)+"/../_scripts", destination: "C:\\_scripts" 
   #workaround nested folder file upload issue when provision called twice
-  config.vm.provision "shell", name: "workaround to fix nested dir issue", inline: "cmd.exe /c \"echo move FROM _scripts temp folder TO _scripts folder & move /y C:\\_scripts\\_scripts\\* C:\\_scripts\\ 2>NUL \""
+  config.vm.provision "shell", name: "workaround::nested dir file upload fix", inline: "cmd.exe /c \"echo move FROM _scripts temp folder TO _scripts folder & move /y C:\\_scripts\\_scripts\\* C:\\_scripts\\ 2>NUL \""
 
   config.vm.provider "virtualbox" do |vb|
 	  vb.gui = false
