@@ -24,7 +24,7 @@ parent_dir() {
 
 cur_tstamp=$(tstamp)
 box_zero_image_path=~/.vagrant.d/boxes/${box_name}/0/virtualbox
-box_frozen_image_path=~/.vagrant.d/boxes/${box_name}/0.was.${cur_tstamp}/__virtualbox__
+box_frozen_image_path=~/.vagrant.d/boxes/${box_name}/0.frozen.${cur_tstamp}/__virtualbox__
 freeze_zero() {
 	if [ -d $box_zero_image_path ];then
 		mv -v $box_zero_image_path $(parent_dir "${box_frozen_image_path}")
