@@ -24,27 +24,16 @@ parent_dir() {
 
 cur_tstamp=$(tstamp)
 box_zero_image_path=~/.vagrant.d/boxes/${box_name}/0/virtualbox
-box_frozen_image_path=~/.vagrant.d/boxes/${box_name}/0/__0__virtualbox__
-box_froze_existing_image_path=~/.vagrant.d/boxes/${box_name}/0.was.${cur_tstamp}/virtualbox
-box_versioned_image_path=~/.vagrant.d/boxes/${box_name}/${cur_tstamp}/virtualbox
+box_frozen_image_path=~/.vagrant.d/boxes/${box_name}/0.was.${cur_tstamp}/__virtualbox__
 freeze_zero() {
-	if [ ! -d $box_frozen_image_path ];then
-		mv -v $box_zero_image_path $(parent_dir "${box_frozen_image_path}")
-	fi
-	#// manually created image to versioning...
-	#// when user did not used this script but already box_zero was existed case,
-	#// to negate conflict make versioning with 0.was.${cur_tstamp} 
 	if [ -d $box_zero_image_path ];then
-		mkdir -p $box_froze_existing_image_path
-		mv -v $box_zero_image_path $(parent_dir "${box_froze_existing_image_path}")
+		mv -v $box_zero_image_path $(parent_dir "${box_frozen_image_path}")
 	fi
 }
 
-
 versioned_boxadd() {
 	freeze_zero
-	vagrant box add ${box_name} ${box_name}.box &&\
-		(mkdir -p $box_versioned_image_path; mv -v $box_zero_image_path "$(parent_dir ${box_versioned_image_path})")
+	vagrant box add ${box_name} ${box_name}.box
 }
 
 if [ "$reuse" = "Y" ];then
